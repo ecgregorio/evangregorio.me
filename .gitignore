@@ -1,4 +1,22 @@
+<<<<<<< HEAD
 venv/
 __pycache__/
 *.pyc
 .env
+=======
+# Virtual Environment
+venv/
+
+#Python cache
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# os files
+.DS_Store
+
+# AWS keys (what why is it here)
+*.pem
+>>>>>>> 2e7469f (Connected -m Connected FastAPI to PostgreSQL on AWS EC2)
