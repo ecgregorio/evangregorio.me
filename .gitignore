@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 venv/
 __pycache__/
 *.pyc
@@ -19,4 +18,3 @@ __pycache__/
 
 # AWS keys (what why is it here)
 *.pem
->>>>>>> 2e7469f (Connected -m Connected FastAPI to PostgreSQL on AWS EC2)
