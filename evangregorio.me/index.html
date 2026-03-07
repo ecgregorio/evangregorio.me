@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evan C. Gregorio | Backend and Cloud</title>
+  <meta
+    name="description"
+    content="Portfolio of Evan C. Gregorio, a UPLB CS sophomore focused on backend development and cloud infrastructure."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;700;800&family=Sora:wght@600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="./index.css" />
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-blob bg-blob-1" aria-hidden="true"></div>
+  <div class="bg-blob bg-blob-2" aria-hidden="true"></div>
+
+  <header class="site-header" id="top">
+    <a href="#home" class="brand">Evan Gregorio</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#projects">Projects</a>
+      <a href="#stack">Stack</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#certifications">Certifications</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero section reveal" id="home">
+      <div class="hero-layout">
+        <div class="hero-main">
+          <p class="eyebrow">Welcome to my feature page! My name is...</p>
+          <h1>Evan Gregorio</h1>
+          <p class="hero-sub">
+            I am a BS Computer Science sophomore at UPLB who 
+            enjoys backend and cloud work. I spend most of my time 
+            working on my pet projects, deploying them on the cloud, and learning 
+            how infra systems are set up and maintained. I am still early 
+            in the journey, but I consistently build explore these areas
+            and raise my understanding each day.
+          </p>
+
+          <div class="hero-social" aria-label="Hero social links">
+            <p>Connect with me:</p>
+            <a class="contact-icon" href="mailto:evanngregorio@gmail.com" aria-label="Email Evan">
+              <img src="./assets/icon-email.png" alt="" />
+              <span class="sr-only">Email</span>
+            </a>
+            <a class="contact-icon" href="https://www.linkedin.com/in/evangregorio/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+              <img src="./assets/icon-linkedin.png" alt="" />
+              <span class="sr-only">LinkedIn</span>
+            </a>
+            <a class="contact-icon" href="https://github.com/ecgregorio" target="_blank" rel="noreferrer" aria-label="GitHub">
+              <img src="./assets/icon-github.png" alt="" />
+              <span class="sr-only">GitHub</span>
+            </a>
+            <a class="contact-icon" href="https://discord.com/users/348028456723939329" target="_blank" rel="noreferrer" aria-label="Discord">
+              <img src="./assets/icon-discord.png" alt="" />
+              <span class="sr-only">Discord</span>
+            </a>
+          </div>
+
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="#projects">View Projects</a>
+            <a class="btn btn-ghost" href="https://api.evangregorio.me/docs" target="_blank" rel="noreferrer">
+              See what I'm currently working on</a>
+          </div>
+
+          <ul class="hero-meta" aria-label="Quick facts">
+            <li>Backend first</li>
+            <li>Cloud/DevOps focus</li>
+            <li>UPLB CS</li>
+          </ul>
+        </div>
+
+        <div class="hero-side">
+          <div class="hero-face" aria-hidden="true">
+            <img
+              class="hero-avatar"
+              src="./assets/evan-face.jpg"
+              alt=""
+            />
+          </div>
+
+          <aside class="hero-panel card">
+            <p class="panel-kicker">Current Focus</p>
+            <h2>Cloud-native backend engineering</h2>
+            <p>
+              I;m learning FastAPI and Spring Boot services, Linux server ops, and container orchestration
+              for simple and reliable deployments.
+            </p>
+            <div class="panel-points">
+              <span>Open to internship roles</span>
+              <span>Cloud and infrastructure projects</span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="projects">
+      <div class="section-head">
+        <p class="eyebrow">Selected Work</p>
+        <h2>Projects</h2>
+        <p class="section-lead">
+          Three projects that represent my current direction.
+        </p>
+      </div>
+
+      <div class="card-grid">
+        <article class="card project-card featured">
+          <p class="project-kicker">Featured</p>
+          <h3>Cloud-hosted API</h3>
+          <p>
+            FastAPI backend deployed on AWS EC2 with Docker Compose, Nginx reverse proxy,
+            PostgreSQL, and HTTPS via Let's Encrypt.
+          </p>
+          <div class="tags">
+            <span>Python</span>
+            <span>FastAPI</span>
+            <span>PostgreSQL</span>
+            <span>AWS EC2</span>
+            <span>Docker</span>
+            <span>Nginx</span>
+          </div>
+          <div class="links">
+            <a href="https://github.com/ecgregorio/evangregorio-api" target="_blank" rel="noreferrer">GitHub</a>
+            <a href="https://api.evangregorio.me/docs" target="_blank" rel="noreferrer">Live API Docs</a>
+          </div>
+        </article>
+
+        <article class="card project-card">
+          <p class="project-kicker">Backend</p>
+          <h3>student-api-using-java</h3>
+          <p>
+            Java Spring Boot API demo centered on CRUD operations, validation, and
+            structured error handling for cleaner backend behavior.
+          </p>
+          <div class="tags">
+            <span>Java</span>
+            <span>Spring Boot</span>
+            <span>REST API</span>
+            <span>Validation</span>
+          </div>
+          <div class="links">
+            <a href="https://github.com/ecgregorio/student-api-using-java" target="_blank" rel="noreferrer">GitHub</a>
+          </div>
+        </article>
+
+        <article class="card project-card">
+          <p class="project-kicker">Desktop System</p>
+          <h3>Hospital Logbook System</h3>
+          <p>
+            A JavaFX desktop application for staff, patients, requests, lab exams, and
+            operational logging with dashboard views. This is a project made with my
+            awesome groupmates for our CMSC 22 course project.
+          </p>
+          <div class="tags">
+            <span>Java</span>
+            <span>JavaFX</span>
+            <span>Desktop App</span>
+            <span>System Design</span>
+          </div>
+          <div class="links">
+            <a href="https://github.com/ecgregorio/hospital-logbook-system" target="_blank" rel="noreferrer">GitHub</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="stack">
+      <div class="section-head">
+        <p class="eyebrow">Technical Profile</p>
+        <h2>Stack</h2>
+      </div>
+
+      <div class="stack-grid">
+        <article class="card">
+          <h3>Backend and Core</h3>
+          <div class="stack-tags" aria-label="Backend and Core technologies">
+            <span class="tech tech-python">Python</span>
+            <span class="tech tech-java">Java</span>
+            <span class="tech tech-c">C</span>
+            <span class="tech tech-bash">Bash</span>
+            <span class="tech tech-fastapi">FastAPI</span>
+            <span class="tech tech-nodejs">Node.js</span>
+            <span class="tech tech-spring">Spring</span>
+            <span class="tech tech-django">Django</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Frontend</h3>
+          <div class="stack-tags" aria-label="Frontend technologies">
+            <span class="tech tech-javascript">JavaScript</span>
+            <span class="tech tech-html">HTML5</span>
+            <span class="tech tech-css">CSS3</span>
+            <span class="tech tech-flutter">Flutter</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Cloud and DevOps</h3>
+          <div class="stack-tags" aria-label="Cloud and DevOps technologies">
+            <span class="tech tech-aws">AWS</span>
+            <span class="tech tech-terraform">Terraform</span>
+            <span class="tech tech-kubernetes">Kubernetes</span>
+            <span class="tech tech-docker">Docker</span>
+            <span class="tech tech-aws-cli">AWS CLI</span>
+            <span class="tech tech-boto3">Boto3</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Databases</h3>
+          <div class="stack-tags" aria-label="Database technologies">
+            <span class="tech tech-postgresql">PostgreSQL</span>
+            <span class="tech tech-mariadb">MariaDB</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Environment and Workflow</h3>
+          <div class="stack-tags" aria-label="Environment and workflow technologies">
+            <span class="tech tech-git">Git</span>
+            <span class="tech tech-github">GitHub</span>
+            <span class="tech tech-linux">Linux</span>
+            <span class="tech tech-ubuntu">Ubuntu</span>
+            <span class="tech tech-windows">Windows</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="timeline">
+      <div class="section-head">
+        <p class="eyebrow">Journey</p>
+        <h2>Timeline</h2>
+      </div>
+
+      <div class="timeline">
+        <article class="timeline-item card">
+          <p class="timeline-kicker">Current</p>
+          <h3>BS Computer Science, UPLB</h3>
+          <p>Continuing the academic grind.</p>
+        </article>
+
+        <article class="timeline-item card">
+          <p class="timeline-kicker">Recent</p>
+          <h3>Public API Deployment</h3>
+          <p>
+            Built and deployed a production-facing FastAPI stack on EC2 with Dockerized services,
+            PostgreSQL, and Nginx.
+          </p>
+        </article>
+
+        <article class="timeline-item card">
+          <p class="timeline-kicker">Now Learning</p>
+          <h3>Cloud-Native Tooling</h3>
+          <p>Actively exploring reliability patterns, infrastructure decisions, and automation workflows.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="certifications">
+      <div class="section-head">
+        <p class="eyebrow">Growth</p>
+        <h2>Certifications</h2>
+      </div>
+
+      <article class="card cert-placeholder">
+        <h3>In Progress</h3>
+        <p>Coming soon!</p>
+      </article>
+    </section>
+
+    <section class="section reveal" id="contact">
+      <div class="section-head">
+        <p class="eyebrow">Reach Out</p>
+        <h2>Contact</h2>
+      </div>
+
+      <article class="card contact-card">
+        <p>Open to internships, collaborations, and cool/tech discussions.</p>
+        <div class="contact-links">
+          <a class="contact-icon" href="mailto:evanngregorio@gmail.com" aria-label="Email Evan">
+            <img src="./assets/icon-email.png" alt="" />
+            <span class="sr-only">Email</span>
+          </a>
+          <button id="copy-email-btn" class="copy-btn" type="button">Copy Email</button>
+          <a class="contact-icon" href="https://www.linkedin.com/in/evangregorio/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+            <img src="./assets/icon-linkedin.png" alt="" />
+            <span class="sr-only">LinkedIn</span>
+          </a>
+          <a class="contact-icon" href="https://github.com/ecgregorio" target="_blank" rel="noreferrer" aria-label="GitHub">
+            <img src="./assets/icon-github.png" alt="" />
+            <span class="sr-only">GitHub</span>
+          </a>
+          <a class="contact-icon" href="https://discord.com/users/348028456723939329" target="_blank" rel="noreferrer" aria-label="Discord">
+            <img src="./assets/icon-discord.png" alt="" />
+            <span class="sr-only">Discord</span>
+          </a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> Evan C. Gregorio</p>
+  </footer>
+
+  <script src="./index.js"></script>
+</body>
+</html>
