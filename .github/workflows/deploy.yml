@@ -4,13 +4,26 @@ on:
   push:
     branches:
       - main
+      - staging
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Where to deploy"
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
 
 jobs:
-  deploy:
+  deploy-staging:
+    name: Deploy Staging
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/staging' || (github.event_name == 'workflow_dispatch' && inputs.target == 'staging')
+    environment: staging
 
     steps:
-      - name: Deploy to EC2
+      - name: Deploy to EC2 (staging)
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -20,20 +33,31 @@ jobs:
           script: |
             set -euo pipefail
 
+            DEPLOY_BRANCH="staging"
             REPO_DIR="${{ secrets.EC2_REPO_DIR }}"
             FRONTEND_DEST="${{ secrets.EC2_FRONTEND_DEST }}"
+            API_HEALTH_URL="${{ secrets.API_HEALTH_URL }}"
+            ROOT_HEALTH_URL="${{ secrets.ROOT_HEALTH_URL }}"
 
             if [ -z "$REPO_DIR" ]; then
-              REPO_DIR="$HOME/fastapi_project"
+              REPO_DIR="$HOME/fastapi_project_staging"
             fi
 
             if [ -z "$FRONTEND_DEST" ]; then
-              FRONTEND_DEST="/var/www/evangregorio.me"
+              FRONTEND_DEST="/var/www/staging.evangregorio.me"
+            fi
+
+            if [ -z "$API_HEALTH_URL" ]; then
+              API_HEALTH_URL="https://staging-api.evangregorio.me/docs"
+            fi
+
+            if [ -z "$ROOT_HEALTH_URL" ]; then
+              ROOT_HEALTH_URL="https://staging.evangregorio.me"
             fi
 
             cd "$REPO_DIR"
             git fetch origin
-            git reset --hard origin/main
+            git reset --hard "origin/$DEPLOY_BRANCH"
 
             if docker compose version >/dev/null 2>&1; then
               DC="docker compose"
@@ -61,3 +85,79 @@ jobs:
 
             sudo nginx -t
             sudo systemctl reload nginx
+
+            curl -fsS "$API_HEALTH_URL" >/dev/null
+            curl -fsS "$ROOT_HEALTH_URL" >/dev/null
+
+  deploy-production:
+    name: Deploy Production
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || (github.event_name == 'workflow_dispatch' && inputs.target == 'production')
+    environment: production
+
+    steps:
+      - name: Deploy to EC2 (production)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script_stop: true
+          script: |
+            set -euo pipefail
+
+            DEPLOY_BRANCH="main"
+            REPO_DIR="${{ secrets.EC2_REPO_DIR }}"
+            FRONTEND_DEST="${{ secrets.EC2_FRONTEND_DEST }}"
+            API_HEALTH_URL="${{ secrets.API_HEALTH_URL }}"
+            ROOT_HEALTH_URL="${{ secrets.ROOT_HEALTH_URL }}"
+
+            if [ -z "$REPO_DIR" ]; then
+              REPO_DIR="$HOME/fastapi_project"
+            fi
+
+            if [ -z "$FRONTEND_DEST" ]; then
+              FRONTEND_DEST="/var/www/evangregorio.me"
+            fi
+
+            if [ -z "$API_HEALTH_URL" ]; then
+              API_HEALTH_URL="https://api.evangregorio.me/docs"
+            fi
+
+            if [ -z "$ROOT_HEALTH_URL" ]; then
+              ROOT_HEALTH_URL="https://evangregorio.me"
+            fi
+
+            cd "$REPO_DIR"
+            git fetch origin
+            git reset --hard "origin/$DEPLOY_BRANCH"
+
+            if docker compose version >/dev/null 2>&1; then
+              DC="docker compose"
+            elif sudo docker compose version >/dev/null 2>&1; then
+              DC="sudo docker compose"
+            else
+              echo "docker compose is not available on target host"
+              exit 1
+            fi
+
+            $DC up -d --build
+            $DC ps
+
+            FRONTEND_SRC="$REPO_DIR/evangregorio.me/"
+            if [ ! -d "$FRONTEND_SRC" ]; then
+              echo "frontend source directory not found: $FRONTEND_SRC"
+              exit 1
+            fi
+
+            sudo mkdir -p "$FRONTEND_DEST"
+            sudo rsync -az --delete "$FRONTEND_SRC" "$FRONTEND_DEST/"
+            sudo chown -R www-data:www-data "$FRONTEND_DEST"
+            sudo find "$FRONTEND_DEST" -type d -exec chmod 755 {} \;
+            sudo find "$FRONTEND_DEST" -type f -exec chmod 644 {} \;
+
+            sudo nginx -t
+            sudo systemctl reload nginx
+
+            curl -fsS "$API_HEALTH_URL" >/dev/null
+            curl -fsS "$ROOT_HEALTH_URL" >/dev/null
