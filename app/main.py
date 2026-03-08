@@ -22,6 +22,7 @@ def read_root():
 			"Hi! You've entered Evan Gregorio's personal web domain. "
 			"It may be barren right now, but soon he will be releasing "
 			"some really cool stuff! "
+			"Check out my feature page at https://evangregorio.me !"
         	)
 	    }
 
