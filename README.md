@@ -68,8 +68,14 @@ The production deployment uses a reverse proxy architecture:
 ## Notes
 
 - The API is running behind Nginx with HTTPS provided by Certbot.
-- FastAPI is served via Gunicorn and managed by systemd for automatic restart and reliability.
-- Any changes to code require restarting the FastAPI systemd service: ```sudo systemctl restart fastapi```
-- * The API is served via Gunicorn with Uvicorn workers
+- The API is served via Gunicorn with Uvicorn workers.
 - The service runs inside Docker containers
 - PostgreSQL data is persisted using Docker volumes
+
+## Deployment Automation
+
+- Pushes to `main` trigger GitHub Actions deployment.
+- Backend deploy uses `docker compose up -d --build` on EC2.
+- Root website files from `evangregorio.me/` are synced to `/var/www/evangregorio.me`.
+- Nginx config is tested (`nginx -t`) and reloaded after sync.
+- Legacy systemd-only deploy flow is deprecated for this repo.

@@ -1,4 +1,4 @@
-name: Deploy FastAPI
+name: Deploy API and Frontend
 
 on:
   push:
@@ -16,8 +16,48 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          script_stop: true
           script: |
-            cd ~/fastapi_project
+            set -euo pipefail
+
+            REPO_DIR="${{ secrets.EC2_REPO_DIR }}"
+            FRONTEND_DEST="${{ secrets.EC2_FRONTEND_DEST }}"
+
+            if [ -z "$REPO_DIR" ]; then
+              REPO_DIR="$HOME/fastapi_project"
+            fi
+
+            if [ -z "$FRONTEND_DEST" ]; then
+              FRONTEND_DEST="/var/www/evangregorio.me"
+            fi
+
+            cd "$REPO_DIR"
             git fetch origin
             git reset --hard origin/main
-            sudo systemctl restart fastapi
+
+            if docker compose version >/dev/null 2>&1; then
+              DC="docker compose"
+            elif sudo docker compose version >/dev/null 2>&1; then
+              DC="sudo docker compose"
+            else
+              echo "docker compose is not available on target host"
+              exit 1
+            fi
+
+            $DC up -d --build
+            $DC ps
+
+            FRONTEND_SRC="$REPO_DIR/evangregorio.me/"
+            if [ ! -d "$FRONTEND_SRC" ]; then
+              echo "frontend source directory not found: $FRONTEND_SRC"
+              exit 1
+            fi
+
+            sudo mkdir -p "$FRONTEND_DEST"
+            sudo rsync -az --delete "$FRONTEND_SRC" "$FRONTEND_DEST/"
+            sudo chown -R www-data:www-data "$FRONTEND_DEST"
+            sudo find "$FRONTEND_DEST" -type d -exec chmod 755 {} \;
+            sudo find "$FRONTEND_DEST" -type f -exec chmod 644 {} \;
+
+            sudo nginx -t
+            sudo systemctl reload nginx

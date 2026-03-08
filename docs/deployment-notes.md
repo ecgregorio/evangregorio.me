@@ -1,3 +1,8 @@
+# Historical Notes (Pre-Docker)
+
+> This file documents the original learning/deployment path before Docker Compose CI/CD.
+> Current production deployment for this repo is documented in `docs/docker-notes.md`.
+
 Step-by-Step Deployment Process
 
 1. Launch EC2 Instance
