@@ -79,3 +79,24 @@ The production deployment uses a reverse proxy architecture:
 - Root website files from `evangregorio.me/` are synced to `/var/www/evangregorio.me`.
 - Nginx config is tested (`nginx -t`) and reloaded after sync.
 - Legacy systemd-only deploy flow is deprecated for this repo.
+
+## Environments
+
+### Production
+- Branch: `main`
+- API URL: `https://api.evangregorio.me`
+- Root URL: `https://evangregorio.me`
+- Compose: `docker-compose.yml`
+- API host port: `8000`
+
+### Staging
+- Branch: `staging`
+- API URL: `https://staging-api.evangregorio.me`
+- Root URL: `https://staging.evangregorio.me`
+- Compose: `docker-compose.yml` + `docker-compose.staging.yml`
+- API host port: `8001`
+
+### Deployment Rules
+- Push to `main` deploys production.
+- Push to `staging` deploys staging.
+- Workflow can also be manually triggered with `workflow_dispatch`.

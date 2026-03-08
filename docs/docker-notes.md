@@ -97,3 +97,20 @@ Nginx serves static files directly from that directory. It is expected for host-
 ### Migration Note
 
 Legacy `systemctl restart fastapi` flow is deprecated for this repo. API lifecycle is managed through Docker Compose.
+
+## Multi-Environment Compose Strategy
+
+To avoid production/staging conflicts on the same EC2 host:
+
+1. `docker-compose.yml` is the production baseline.
+2. `docker-compose.staging.yml` overrides only staging differences.
+3. Staging deploy command:
+   `docker compose -f docker-compose.yml -f docker-compose.staging.yml up -d --build`
+4. Production deploy command:
+   `docker compose up -d --build`
+
+### Why this is used
+
+- Prevents accidental production port changes.
+- Keeps one source of truth with minimal override.
+- Avoids container naming collisions and environment drift.
