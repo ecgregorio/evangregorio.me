@@ -93,11 +93,13 @@ jobs:
               sleep_seconds=3
 
               for i in $(seq 1 "$attempts"); do
-                if curl -fsS "$url" >/dev/null; then
+                echo "[$i/$attempts] probing $label: $url"
+                if curl --silent --show-error --fail \
+                  --connect-timeout 3 --max-time 8 \
+                  "$url" >/dev/null; then
                   echo "$label is healthy: $url"
                   return 0
                 fi
-                echo "[$i/$attempts] waiting for $label: $url"
                 sleep "$sleep_seconds"
               done
 
@@ -105,9 +107,6 @@ jobs:
               return 1
             }
 
-            wait_for_url "$API_HEALTH_URL" "API"
-            wait_for_url "$ROOT_HEALTH_URL" "Root site"
-            
   deploy-production:
     name: Deploy Production
     runs-on: ubuntu-latest
@@ -185,17 +184,16 @@ jobs:
               sleep_seconds=3
 
               for i in $(seq 1 "$attempts"); do
-                if curl -fsS "$url" >/dev/null; then
+                echo "[$i/$attempts] probing $label: $url"
+                if curl --silent --show-error --fail \
+                  --connect-timeout 3 --max-time 8 \
+                  "$url" >/dev/null; then
                   echo "$label is healthy: $url"
                   return 0
                 fi
-                echo "[$i/$attempts] waiting for $label: $url"
                 sleep "$sleep_seconds"
               done
 
               echo "$label health check failed after $attempts attempts: $url"
               return 1
             }
-
-            wait_for_url "$API_HEALTH_URL" "API"
-            wait_for_url "$ROOT_HEALTH_URL" "Root site"
