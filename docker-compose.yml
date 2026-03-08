@@ -1,7 +1,6 @@
 services:
   api:
     build: .
-    container_name: fastapi_api
     restart: always
     command: gunicorn app.main:app -k uvicorn.workers.UvicornWorker -w 4 -b 0.0.0.0:8000
     ports:
@@ -14,7 +13,6 @@ services:
 
   db:
     image: postgres:16
-    container_name: fastapi_db
     restart: always
     environment:
       POSTGRES_USER: postgres
