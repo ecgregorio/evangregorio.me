@@ -3,4 +3,4 @@ services:
     ports:
       - "8001:8000"
     environment:
-      - GUNICORN_WORKES=1
+      - GUNICORN_WORKERS=1
