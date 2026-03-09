@@ -1,20 +1,23 @@
 ## Project Overview
 
-This project is a FastAPI backend deployed on an **AWS EC2** instance running Ubuntu 24.04 and connected to a **PostgreSQL** database.  
-I'm working on this as a prototype for a future project and for learning **cloud deployment**, **backend development**, and **database integration**.
+Personal full-stack web platform running on AWS EC2 with a containerized FastAPI backend, PostgreSQL, Nginx reverse proxy, HTTPS via Certbot, and GitHub Actions CI/CD.
 
-The API is live and accessible via the web. You can test endpoints directly in your browser or with tools like Postman.
+## Live Endpoints
 
-Currently in early early experimentation phase.
+- Root site: `https://evangregorio.me`
+- API docs (Swagger): `https://api.evangregorio.me/docs`
 
-## Live Server
-You can access the homepage here:
+## Project Scope
 
-🌐 https://evangregorio.me
+This repository includes:
 
-You can also access the interactive API docs (Swagger UI) directly:
-
-🌐 https://api.evangregorio.me/docs
+- Static frontend site (`evangregorio.me/`)
+- FastAPI backend (`app/`)
+- PostgreSQL integration via SQLAlchemy
+- Docker/Compose runtime for app + database
+- Nginx host-level reverse proxy and TLS
+- GitHub Actions deployment workflow
+- Production + staging deployment strategy
 
 ## Tech Stack
 ![Python](https://img.shields.io/badge/python-3.12-blue)
@@ -22,37 +25,36 @@ You can also access the interactive API docs (Swagger UI) directly:
 ![Docker](https://img.shields.io/badge/docker-containerized-blue)
 ![AWS](https://img.shields.io/badge/AWS-EC2-orange)
 
-**Cloud / OS**
+## Tech Stack
 
-* AWS EC2
-* Ubuntu 24.04 LTS
+### Backend
+- Python 3.12
+- FastAPI
+- Gunicorn + Uvicorn workers
+- SQLAlchemy ORM
 
-**Backend**
+### Database
+- PostgreSQL 16+
 
-* Python 3.12
-* FastAPI
-* Gunicorn
-* Uvicorn workers
-
-**Database**
-
-* PostgreSQL 16+
-* SQLAlchemy ORM
-
-**Infrastructure / Deployment**
-
-* Docker & Docker Compose
-* Nginx reverse proxy
-* HTTPS via Certbot
-* SSH remote management
+### Infrastructure
+- AWS EC2 (Ubuntu 24.04)
+- Docker + Docker Compose
+- Nginx reverse proxy
+- Certbot (Let's Encrypt HTTPS)
+- GitHub Actions CI/CD
 
 ## Deployment Architecture
 
-The production deployment uses a reverse proxy architecture:
-
-<img width="200" alt="image" src="https://github.com/user-attachments/assets/636851df-af5b-4004-aaa8-4dd334af8463" />
-
-
+```text
+Internet
+   |
+Nginx (host)
+   |-- evangregorio.me       -> /var/www/evangregorio.me (static frontend)
+   |-- api.evangregorio.me   -> 127.0.0.1:8000 (FastAPI container)
+FastAPI container
+   |
+PostgreSQL container
+```
 
 ## Preview
 
@@ -63,14 +65,6 @@ The production deployment uses a reverse proxy architecture:
 > March 07, 23:29
 > Containers running on the EC2 server via Docker Compose
 <img width="1779" height="128" alt="image" src="https://github.com/user-attachments/assets/471d7ceb-cf0f-41cb-a11d-54b8d48d1e59" />
-
-
-## Notes
-
-- The API is running behind Nginx with HTTPS provided by Certbot.
-- The API is served via Gunicorn with Uvicorn workers.
-- The service runs inside Docker containers
-- PostgreSQL data is persisted using Docker volumes
 
 ## Deployment Automation
 
@@ -86,7 +80,7 @@ The production deployment uses a reverse proxy architecture:
 - Branch: `main`
 - API URL: `https://api.evangregorio.me`
 - Root URL: `https://evangregorio.me`
-- Compose: `docker-compose.yml`
+- Compose: `docker-compose.yml` +  + `docker-compose.production.yml`
 - API host port: `8000`
 
 ### Staging
@@ -96,7 +90,28 @@ The production deployment uses a reverse proxy architecture:
 - Compose: `docker-compose.yml` + `docker-compose.staging.yml`
 - API host port: `8001`
 
-### Deployment Rules
-- Push to `main` deploys production.
-- Push to `staging` deploys staging.
-- Workflow can also be manually triggered with `workflow_dispatch`.
+## CI/CD Behavior
+- Push to main deploys production.
+- Push to staging deploys staging.
+- Manual deploy is available via workflow_dispatch.
+- Deployment flow:
+    - Pull latest branch on EC2
+    - Rebuild/restart Docker services
+    - Sync frontend files to Nginx web root
+    - Validate Nginx config and reload
+    - Run health checks
+
+## Project Structure
+
+- `app/                    FastAPI app + DB models/session wiring`
+- `evangregorio.me        Static frontend assets`
+- `docs/                   Deployment and infrastructure notes`
+- `.github/workflows/      CI/CD workflows`
+- `docker-compose*.yml     Environment compose definitions`
+
+## Operations Notes
+
+- The root domain is served by Nginx from /var/www/evangregorio.me.
+- FastAPI / route is API scope, not the static root website.
+- On t3.micro, production should stay always-on; staging is best run on-demand to avoid memory pressure.
+- Container worker counts should stay conservative on micro instances (froze my instance one time).
