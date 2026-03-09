@@ -107,6 +107,9 @@ jobs:
               return 1
             }
 
+            wait_for_url "$API_HEALTH_URL" "API"
+            wait_for_url "$ROOT_HEALTH_URL" "Root site"
+
   deploy-production:
     name: Deploy Production
     runs-on: ubuntu-latest
@@ -197,3 +200,6 @@ jobs:
               echo "$label health check failed after $attempts attempts: $url"
               return 1
             }
+
+            wait_for_url "$API_HEALTH_URL" "API"
+            wait_for_url "$ROOT_HEALTH_URL" "Root site"
