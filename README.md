@@ -2,6 +2,13 @@
 
 Personal full-stack web platform running on AWS EC2 with a containerized FastAPI backend, PostgreSQL, Nginx reverse proxy, HTTPS via Certbot, and GitHub Actions CI/CD.
 
+![Python](https://img.shields.io/badge/python-3.12-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-API-green)
+![Docker](https://img.shields.io/badge/docker-containerized-blue)
+![AWS](https://img.shields.io/badge/AWS-EC2-orange)
+![Last Commit](https://img.shields.io/github/last-commit/ecgregorio/evangregorio.me)
+![Repo Size](https://img.shields.io/github/repo-size/ecgregorio/evangregorio.me)
+
 ## Live Endpoints
 
 - Root site: https://evangregorio.me
@@ -20,10 +27,6 @@ This repository includes:
 - Production + staging deployment strategy
 
 ## Tech Stack
-![Python](https://img.shields.io/badge/python-3.12-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-API-green)
-![Docker](https://img.shields.io/badge/docker-containerized-blue)
-![AWS](https://img.shields.io/badge/AWS-EC2-orange)
 
 ### Backend
 - Python 3.12
